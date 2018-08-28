@@ -27,7 +27,13 @@ Note: You only need to do this once.
 
 1. In a Python 2 Session:
 ```Python
-! pip2 install --upgrade dask keras matplotlib pandas_highcharts protobuf tensorflow seaborn
+!pip2 install --upgrade dask 
+!pip2 install --upgrade keras 
+!pip2 install --upgrade matplotlib==2.0.0. 
+!pip2 install --upgrade pandas_highcharts 
+!pip2 install --upgrade protobuf 
+!pip2 install --upgrade tensorflow==1.3.0.
+!pip2 install --upgrade seaborn
 ```
 Note, you must then stop the session and start a new Python session in order for all the packages to be seen.
 

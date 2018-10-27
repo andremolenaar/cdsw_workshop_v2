@@ -31,7 +31,7 @@ spark = SparkSession\
 
   
 # Add the data file to hdfs.
-!hdfs dfs -put -f $HOME/data/kmeans_data.txt /user/trainingXX
+!hdfs dfs -put -f $HOME/data/kmeans_data.txt /user/$HADOOP_USER_NAME
 
 lines = spark.read.text("/user/trainingXX/kmeans_data.txt").rdd.map(lambda r: r[0])
 data = lines.map(parseVector).cache()

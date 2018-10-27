@@ -33,7 +33,7 @@ spark = SparkSession\
 # Add the data file to hdfs.
 !hdfs dfs -put -f $HOME/data/kmeans_data.txt /user/cdsw
 
-lines = spark.read.text("/user/cdsw/kmeans_data.txt").rdd.map(lambda r: r[0])
+lines = spark.read.text("/user/trainingXX/kmeans_data.txt").rdd.map(lambda r: r[0])
 data = lines.map(parseVector).cache()
 K = 2
 convergeDist = 0.1

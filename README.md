@@ -25,15 +25,15 @@ We recommend setting up a **"Nightly Analysis"** job to illustrate how data scie
 ## Setup instructions
 Note: You only need to do this once.
 
-1. In a Python 2 Session:
+1. In a Python 3 Session:
 ```Python
-!pip2 install --upgrade dask 
-!pip2 install --upgrade keras 
-!pip2 install --upgrade matplotlib==2.0.0. 
-!pip2 install --upgrade pandas_highcharts 
-!pip2 install --upgrade protobuf 
-!pip2 install --upgrade tensorflow==1.3.0.
-!pip2 install --upgrade seaborn
+!pip3 install --upgrade dask 
+!pip3 install --upgrade keras 
+!pip3 install --upgrade matplotlib==2.0.0. 
+!pip3 install --upgrade pandas_highcharts 
+!pip3 install --upgrade protobuf 
+!pip3 install --upgrade tensorflow==1.3.0.
+!pip3 install --upgrade seaborn
 ```
 Note, you must then stop the session and start a new Python session in order for all the packages to be seen.
 

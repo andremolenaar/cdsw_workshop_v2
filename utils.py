@@ -30,7 +30,7 @@ def stop_tensorboard():
   global process
   if process: 
     process.terminate()
-    print "Tensorboard stopped."
+    print("Tensorboard stopped.")
     process = False
   else:
     print "Tensorboard is not running."

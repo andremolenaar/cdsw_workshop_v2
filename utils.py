@@ -33,4 +33,4 @@ def stop_tensorboard():
     print("Tensorboard stopped.")
     process = False
   else:
-    print "Tensorboard is not running."
+    print("Tensorboard is not running.")

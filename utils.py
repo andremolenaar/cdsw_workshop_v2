@@ -13,7 +13,7 @@ def start_tensorboard(logdir="/tmp/tensorboard", iframe=True):
     process = subprocess.Popen(cmd)
     time.sleep(3)    
   url = "http://{id}.{domain}".format(id=os.environ['CDSW_ENGINE_ID'], domain=os.environ['CDSW_DOMAIN'])
-  print "Starting Tensorboard at {url}...".format(url=url)
+  print("Starting Tensorboard at {url}...".format(url=url))
   if iframe:
     html = """
       <p><a href="{url}">Open Tensorboard</a></p>

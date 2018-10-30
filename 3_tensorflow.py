@@ -69,7 +69,7 @@ summary_writer = tf.summary.FileWriter(logdir=logs_path, graph=tf.get_default_gr
 for epoch in range(1, training_epochs+1):
     avg_cost = 0
     total_batch = int(mnist.train.num_examples/batch_size)
-    for i in xrange(total_batch):
+    for i in range(total_batch):
         xs, ys = mnist.train.next_batch(batch_size)
         _, c, summary = sess.run([optimizer, cost, merged_summary_op],
                                 feed_dict = {x:xs, y:ys})

@@ -10,7 +10,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets('data/MNIST', one_hot=True)
 
 ### View Data
-for i in xrange(0, 3):
+for i in range(0, 3):
   tmp = mnist.train.images[i]
   tmp = tmp.reshape((28,28))
   plt.imshow(tmp, cmap = plt.cm.Greys)
@@ -66,7 +66,7 @@ sess.run(init)
 # Write tensboard summaries
 summary_writer = tf.summary.FileWriter(logdir=logs_path, graph=tf.get_default_graph())
 
-for epoch in xrange(1, training_epochs+1):
+for epoch in range(1, training_epochs+1):
     avg_cost = 0
     total_batch = int(mnist.train.num_examples/batch_size)
     for i in xrange(total_batch):

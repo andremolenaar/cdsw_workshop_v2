@@ -26,7 +26,7 @@ data.head()
 # Show DJIA vs. debt related query volume.
 display_charts(data, chart_type="stock", title="DJIA vs. Debt Query Volume", secondary_y="debt")
 seaborn.set(font="DejaVu Sans")
-seaborn.lmplot("debt", "djia", data=data, height=7)
+seaborn.lmplot("debt", "djia", data=data, size=7)
 
 # Detect if search volume is increasing or decreasing in
 # any given week by forming a moving average and testing if the current value

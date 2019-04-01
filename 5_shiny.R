@@ -13,7 +13,7 @@ mcparallel(runApp(host="0.0.0.0", port=8080, launch.browser=FALSE,
 
 # Finally, create an IFrame widget in the console and point it at the Shiny server.
 
-service.url <- paste("https://", Sys.getenv("CDSW_ENGINE_ID"), ".", 
+service.url <- paste("http://", Sys.getenv("CDSW_ENGINE_ID"), ".", 
 Sys.getenv("CDSW_DOMAIN"), sep="") 
 Sys.sleep(5)
 iframe(src=service.url, width="640px", height="480px")

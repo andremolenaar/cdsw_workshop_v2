@@ -13,8 +13,8 @@ There are 4 scripts provided which walk through the interactive capabilities of 
   - Access to Hadoop HDFS CLI (e.g. `hdfs dfs -ls /`).
 3. **Tensorflow (Python 2).** Demonstrates:
   - Ability to install and use custom packages (e.g. `pip search tensorflow`)
-4. **R on Spark via Sparklyr (R).** Demonstrates:
-  - Use familiar dplyr with Spark using [Sparklyr](http://spark.rstudio.com)
+4. **R** Demonstrates:
+  - Run R code on CDSW, showing arules library
 5. **Advanced visualization with Shiny (R)** Demonstrates:
   - Use of 'shiny' to provide interactive graphics inside CDSW
   

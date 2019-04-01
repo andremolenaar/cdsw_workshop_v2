@@ -1,5 +1,5 @@
 # Load the Association Rules Library
-# Running a Basket Analysis at Scale.
+# Running a Basket Analysis
 # For small datasets, the R package arules can be used:
 
 library(arules)
@@ -47,5 +47,5 @@ groceryrules_df <- as(groceryrules, "data.frame")
 str(groceryrules_df)
 
 # For bigger datasets, Spark with the MLlib library can be used.
-# Since we are using R, SparklyR is used.
+
 

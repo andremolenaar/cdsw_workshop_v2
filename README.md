@@ -45,6 +45,9 @@ install.packages("nycflights13")
 install.packages("Lahman")
 install.packages("mgcv")
 install.packages('shiny') 
+install.packages("arules")
+install.packages("arulesViz")
+install.packages("readr")
 ```
 
 3. Stop all sessions, then proceed.

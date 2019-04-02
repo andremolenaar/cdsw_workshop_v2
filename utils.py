@@ -6,13 +6,13 @@ process = False
 
 def start_tensorboard(logdir="/tmp/tensorboard", iframe=True):
   "Starts tensorboard on public web port for session."  
-  cmd = ["python", "/home/cdsw/.local/bin/tensorboard",
+  cmd = ["python3", "/home/cdsw/.local/bin/tensorboard",
     "--logdir=" + logdir, "--port=8080"]
   global process
   if not process:
     process = subprocess.Popen(cmd)
     time.sleep(3)    
-  url = "https://{id}.{domain}".format(id=os.environ['CDSW_ENGINE_ID'], domain=os.environ['CDSW_DOMAIN'])
+  url = "http://{id}.{domain}".format(id=os.environ['CDSW_ENGINE_ID'], domain=os.environ['CDSW_DOMAIN'])
   print("Starting Tensorboard at {url}...".format(url=url))
   if iframe:
     html = """

@@ -31,9 +31,6 @@ summary(groceryrules)
 inspect(groceryrules[1:3])
 inspect(sort(groceryrules, by = "lift")[1:10])
 
-library(arulesViz)
-plot(groceryrules)
-
 # Finding rules with Berries
 berryrules <- subset(groceryrules, items %in% "berries")
 inspect(berryrules)

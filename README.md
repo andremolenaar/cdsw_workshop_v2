@@ -34,6 +34,7 @@ Note: You only need to do this once.
 !pip3 install --upgrade protobuf 
 !pip3 install --upgrade tensorflow==1.3.0.
 !pip3 install --upgrade seaborn
+!pip3 install --upgrade numpy
 ```
 Note, you must then stop the session and start a new Python session in order for all the packages to be seen.
 

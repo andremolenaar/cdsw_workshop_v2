@@ -132,7 +132,7 @@ Data Science is often about visualizing ideas, and then sharing them to persuade
 Let’s get started:
 1.	Start up a Python 3 session (1vCPU, 2GiB) in the same manner you did before. If your Python session is still running, you may reuse it. You might want to hit the ```Clear``` button in the right top, to clean your console screen.
 2.	Select 1_python.py in the file browser
-3.	Run the entire file (multiple ways of doing that - try to figure out more than one way. It should be pretty obvious!). One way of doing it would be to select the ```Run``` menu above your program code. ![](assets/markdown-img-paste-20200501142748451.png?s=50)
+3.	Run the entire file (multiple ways of doing that - try to figure out more than one way. It should be pretty obvious!). One way of doing it would be to select the ```Run``` menu above your program code. ![](assets/markdown-img-paste-20200501142748451.png?v=4&s=200)
 
 
 

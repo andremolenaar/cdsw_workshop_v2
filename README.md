@@ -217,7 +217,7 @@ If everything went correctly you’ll see that we demonstrate:
 
 You may stop your session now by hitting the ```Stop``` button above your session log.
 
-## Lab 6 - Runnng R code
+## Lab 5 - Runnng R code
 
 We’ve focused on python integration, but just to show we can do similar things with R, let’s take a look at the R programs and execute them.
 
@@ -243,3 +243,43 @@ Installing these R libraries will take a couple of minutes. So this might be a g
 
 2.	Select (and run) 4_basket_analysis.r
 The right hand side output window should (eventually) look like this (more or less - depending on your screen real-estate):
+
+![](assets/markdown-img-paste-20200501163427893.png)
+
+## Lab 6 - Running Spark in combination with R using sparklyr
+
+Similar as in Lab 2, where we used Spark in combination with Python, you can also use Spark in combination with R. The library that makes that all easy, is sparklyr.
+
+1. Clear your console output using the ```clear``` button.
+
+2. Open the program ```5_sparkly.R``` in your editor, and run it.
+
+3. Watch the program run and try to understand what it is doing. When the program has finnished, you should have something like below:
+
+![](assets/markdown-img-paste-20200501164303599.png)
+
+Scroll a bit upward to the Machine Learning section of the output, and have a read through it.
+
+4.	Can you figure out some of the things it’s doing? If you know R, and if you know sparklyr, then you can get detailed; if you don’t know R then simply ```collapse``` the output and see if you can make sense of the analysis without looking at any code … hopefully you can!
+
+5. Stop your R session by hitting the ```Stop``` button.
+
+## Lab 7 - Scala
+
+In this lab we show how you can use the ‘Template’ mechanism to get started with a simple Scala example. Note that the built in templates and example code aren’t written with multiple users in mind, so you might see file access and permission errors due to the fact that other students might’ve created or deleted files before you!
+
+1. Navigate to the project space by selecting ```project```
+![](assets/markdown-img-paste-20200501165206180.png)
+and then the ```All Projects``` link.
+![](assets/markdown-img-paste-2020050116535675.png)
+
+2. Create a new project by hitting the ‘+’ button on the top right and selecting ```create project```
+![](assets/markdown-img-paste-20200501165518584.png)
+
+3.	In the Create new Project window that comes up provide a name for your new project (‘Scala’, for example), and then choose the Scala template in the Initial Setup drop down menu:
+
+![](assets/markdown-img-paste-20200501165708507.png)
+
+4.	Create the project. You’ll see the File Browser view onto the project:
+
+![](assets/markdown-img-paste-20200501170043600.png)

@@ -69,20 +69,47 @@ You have on the left hand panel:
 - Jobs - Run and schedule jobs and add dependencies
 - Applications - Run self-built applications
 - Settings - User, Hadoop Authentication, SSH Keys and permission settings
-- Admin
+- Admin - Manage your Cloudera Data Science Workbench environment
 
-In the top right hand corner you have
-Search bar - for search for projects
-+	adding new projects or new teams
-User name - Account settings and Sign out - Same as settings in home screen
+In the top right hand corner you have:
+- **Search bar** for search for projects
+- **+**	adding new projects or new teams
+- **User name** Account settings and Sign out - Same as settings in home screen
+- ![](assets/markdown-img-paste-20200501131947103.png) menu to external tools like Hue, Cloudera Manager and others
 
+Lets create a new project, by selecting the ![](assets/markdown-img-paste-2020050113225547.png) button.
 
+Copy and paste this GitHub URL into the Git tab.
+```
+https://github.com/andremolenaar/cdsw_workshop_v2.git
+```
+Project name = Something like your name and Labs, and hit the ```Create Project``` button.
 
+![](assets/markdown-img-paste-20200501132541791.png)
 
-## Setup instructions
-Note: You only need to do this once.
+When the project is created, you will see a screen similar to this:
 
-1. In a Python 3 Session:
+![](assets/markdown-img-paste-20200501133310609.png)
+
+Now, Launch a Python 3 Session by selecting the 'Open Workbench' button, populate the options:
+- Editor: workbench
+- Engine Kernel: Python 3
+- 1 vCPU / 2 GiB Memory
+And hit the ```Launch Session``` button
+
+![](assets/markdown-img-paste-20200501134641312.png)
+
+After a few seconds, you will get to your workbench screen with a running Python3 engine.
+
+![](assets/markdown-img-paste-20200501135850802.png)
+
+1.	On the far left is a file browser (note the little ‘refresh’ icon at the top:  )
+2.	In the middle is an editor open on the file that you selected - in this case the README.md file.
+3.	On the right is your running session, with your python3 command prompt in the bottom. A green bar indicates it is ready to process something. When it is processing, it will turn red.
+
+Lets enrich our Python3 environment with additional libraries.
+Run the following commands from the python command prompt:
+
 ```Python
 !pip3 install --upgrade dask
 !pip3 install --upgrade keras
@@ -93,6 +120,7 @@ Note: You only need to do this once.
 !pip3 install --upgrade seaborn
 !pip3 install --upgrade numpy
 ```
+
 Note, you must then stop the session and start a new Python session in order for all the packages to be seen.
 
 2. In an R Session:

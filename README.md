@@ -120,8 +120,23 @@ Run the following commands from the python command prompt:
 !pip3 install --upgrade seaborn
 !pip3 install --upgrade numpy
 ```
+You can copy all those statements, and paste it at the python3 prompt.
+When the libraries have been installed, you should see something like this:
 
-Note, you must then stop the session and start a new Python session in order for all the packages to be seen.
+![](assets/markdown-img-paste-20200501140545193.png)
+
+## Lab 3 - Visualization and Sharing
+
+Data Science is often about visualizing ideas, and then sharing them to persuade others to take action. CDSW lets you use the visualization tools you’d use naturally, and adds a neat twist to the whole idea of sharing.
+
+Let’s get started:
+1.	Start up a Python 3 session (1vCPU, 2GiB) in the same manner you did before. If your Python session is still running, you may reuse it. You might want to hit the ```Clear``` button in the right top, to clean your console screen.
+2.	Select 1_python.py in the file browser
+3.	Run the entire file (multiple ways of doing that - try to figure out more than one way. It should be pretty obvious!). One way of doing it would be to select the ```Run``` menu above your program code. ![](assets/markdown-img-paste-20200501142748451.png?s=50)
+
+
+
+
 
 2. In an R Session:
 ```R

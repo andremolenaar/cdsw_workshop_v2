@@ -276,10 +276,24 @@ and then the ```All Projects``` link.
 2. Create a new project by hitting the ‘+’ button on the top right and selecting ```create project```
 ![](assets/markdown-img-paste-20200501165518584.png)
 
-3.	In the Create new Project window that comes up provide a name for your new project (‘Scala’, for example), and then choose the Scala template in the Initial Setup drop down menu:
+3. In the Create new Project window that comes up provide a name for your new project (‘Scala’, for example), and then choose the Scala template in the Initial Setup drop down menu:
 
 ![](assets/markdown-img-paste-20200501165708507.png)
 
-4.	Create the project. You’ll see the File Browser view onto the project:
+4. Create the project. You’ll see the File Browser view onto the project:
 
 ![](assets/markdown-img-paste-20200501170043600.png)
+
+5. Hit ```Open Workbench``` in the top right and let’s go run some Scala code:
+
+6. Start a Scala session
+
+![](assets/markdown-img-paste-20200501185745999.png)
+
+7. The Scala example project includes its own data set that needs to be moved into HDFS, since that is where the scala code expects to find it. The data is copied to the tmp directory in HDFS, using the command in line 9 of the example.
+
+8. Run the program
+
+Question: How will you use templates when demonstrating CDSW to your friends and colleagues?
+
+Remember to stop your scala Session.

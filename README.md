@@ -229,6 +229,7 @@ This lab requires that R is setup with some additional libraries, similar like w
 
 2. In an R Session, run these commands:
 ```R
+install.packages("tidyverse")
 install.packages('sparklyr')
 install.packages('plotly')
 install.packages("nycflights13")

@@ -132,13 +132,102 @@ Data Science is often about visualizing ideas, and then sharing them to persuade
 Let’s get started:
 1.	Start up a Python 3 session (1vCPU, 2GiB) in the same manner you did before. If your Python session is still running, you may reuse it. You might want to hit the ```Clear``` button in the right top, to clean your console screen.
 2.	Select 1_python.py in the file browser
-3.	Run the entire file (multiple ways of doing that - try to figure out more than one way. It should be pretty obvious!). One way of doing it would be to select the ```Run``` menu above your program code. ![](assets/markdown-img-paste-20200501142748451.png?v=4&s=200)
+3.	Run the entire file (multiple ways of doing that - try to figure out more than one way. It should be pretty obvious!). One way of doing it would be to select the ```Run``` menu above your program code.
 
+![](assets/markdown-img-paste-20200501142748451.png)
 
+4. You should end up with some nice graphs in the output window:
 
+![](assets/markdown-img-paste-20200501143417168.png)
 
+5. You can see that CDSW is very similar to a notebook, supporting the same visualization tools. However, unlike a notebook, it doesn’t use cells: instead it uses markup in the source file, and an output window. Furthermore, that window has some interesting properties …
 
-2. In an R Session:
+6. Scroll up to find this diagram:
+
+![](assets/markdown-img-paste-2020050114350260.png)
+
+7. On the left is a little chain link button: ![](assets/markdown-img-paste-20200501143736698.png)
+
+8. Click on it and you’ll see beneath the chart some html that can be used to embed that chart into a website:
+
+![](assets/markdown-img-paste-20200501143842603.png)
+
+9. Scroll to the top of the window and you’ll see this on the far right (the exact layout depends upon the real estate available – you might have to expand your browser window to see the following links and they might be laid out vertically or horizontally):
+
+![](assets/markdown-img-paste-20200501144010297.png)
+
+10. Hit the ```collapse``` link and see the difference in the output window.
+
+11. Question: What difference did you see? How might this be used? Is it useful?
+
+12. Notebooks have great output, but how do you share what they show you? CDSW solves this by simply providing a link to the output that you can send to anyone and they can see the output. Try it:
+
+13.	Select the ```Share``` link:
+
+![](assets/markdown-img-paste-20200501144307489.png)
+
+14.	And then ```Share with Others``` (your URL will be similar, but different from this one):
+
+![](assets/markdown-img-paste-20200501144443732.png)
+
+15.	Cut and paste that link and put it into another tab of your browser and see what happens.
+
+16.	You should see that you have access to almost the same output window (this new one doesn’t have this share link!)
+
+![](assets/markdown-img-paste-20200501144651412.png)
+
+So we’ve demonstrated how CDSW is like a notebook, but is perhaps more powerful, and has great sharing capability. Let’s go on to see about integration with Hadoop and Cloud Object Stores.
+
+## Lab 4 - Hadoop Integration
+In this lesson we’ll see two mechanisms for integrating with Hadoop:
+1. Filesystem - storing data in Hadoop itself using HDFS
+2. Computation - executing code on the Hadoop cluster via Spark
+
+Execute the following instructions.
+
+1. Clean up your Python session by hitting the ```clear``` button and the ```expand``` link (if available)
+
+![](assets/markdown-img-paste-2020050114525917.png)
+
+2. Select the 2_pyspark.py file
+
+3. If you don’t have a Python 3 workbench session open yet, Launch a Python 3 session 1 vCPU / 2 GB RAM
+
+4. Run line 32:
+
+5. ```!hdfs dfs -put -f $HOME/data/kmeans_data.txt /user/$HADOOP_USER_NAME```
+
+6. Execute the 2_pyspark.py file in your already running Python session
+
+7.	Question: What did it do?
+
+8.	Question: What kind of thing is the variable ‘data’? (try typing ‘data’ into the console and seeing what gets printed out.
+
+9. Open a terminal using the ```terminal``` icon in the top right:
+
+![](assets/markdown-img-paste-20200501150145935.png)
+
+10. Execute ```hdfs dfs -ls``` to see the data file in the hadoop file system (or, to show off, execute ```! hdfs dfs -ls``` in the python console to do the same thing!)
+
+![](assets/markdown-img-paste-20200501150401265.png)
+
+If everything went correctly you’ll see that we demonstrate:
+-	Natural integration with HDFS - it’s just a path to a file!
+-	Natural parallel computation across the cluster using Spark
+
+You may stop your session now by hitting the ```Stop``` button above your session log.
+
+## Lab 6 - Runnng R code
+
+We’ve focused on python integration, but just to show we can do similar things with R, let’s take a look at the R programs and execute them.
+
+This lab requires that R is setup with some additional libraries, similar like we did with Python before.
+
+1. Create a new R Session.
+
+![](assets/markdown-img-paste-20200501151428198.png)
+
+2. In an R Session, run these commands:
 ```R
 install.packages('sparklyr')
 install.packages('plotly')
@@ -149,7 +238,7 @@ install.packages('shiny')
 install.packages("arules")
 install.packages("readr")
 ```
+Installing these R libraries will take a couple of minutes. So this might be a good time to take a break.
 
-3. Stop all sessions, then proceed.
-
-‹
+2.	Select (and run) 4_basket_analysis.r
+The right hand side output window should (eventually) look like this (more or less - depending on your screen real-estate):

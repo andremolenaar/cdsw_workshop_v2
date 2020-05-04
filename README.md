@@ -300,10 +300,207 @@ and then the ```All Projects``` link.
 
 ![](assets/markdown-img-paste-20200501185745999.png)
 
-7. The Scala example project includes its own data set that needs to be moved into HDFS, since that is where the scala code expects to find it. The data is copied to the tmp directory in HDFS, using the command in line 9 of the example.
+7. Open the ```examples``` folder in your file browser, and select the ```kmeans.scala``` program. This Scala example project includes its own data set that needs to be moved into HDFS, since that is where the scala code expects to find it. The data is copied to the tmp directory in HDFS, using the command in line 9 of the example.
 
-8. Run the program
+8. Look at the lines 9 and 12. In line 9, the file ```kmeans_data.txt``` is copied to the /tmp directory on hdfs, and in line 12, that hdfs file is used by Spark. Unfortunately, the account that you are using in the workshop does not have file create privileges on the ```/tmp``` directory. So we need to change the statement a bit, so that it writes to our home directory on hdfs, which is ```/user/Admin```. Modify the statements as follows:
+
+```
+//load local data to hdfs
+"hdfs dfs -put data/kmeans_data.txt /user/admin"
+
+//example kmeans clustering script
+val data = sc.textFile("/user/admin/kmeans_data.txt")
+```
+
+
+9. Run the program
 
 Question: How will you use templates when demonstrating CDSW to your friends and colleagues?
 
 Remember to stop your scala Session.
+
+## Lab 8 - Scheduling Jobs
+
+It’s often the case that you need to execute tasks on a periodic basis, and to execute one or more tasks once some other task has succeeded. Obviously there are sophisticated workflow engines but for simple workflows CDSW has a jobs system built in.
+
+This lab goes through the mechanics of creating a simple multi-step job process.
+1. Open up your ```xxx CDSW Labs``` project to get to this screen:
+
+![](assets/markdown-img-paste-20200504151705425.png)
+
+2. You need to be in a project to create a Job.
+
+3. Select ```Jobs``` tab in the left menu, and then hit the ```new job``` link in the top-right corner of the page, and you’ll get to the following screen (there are other ways of getting to this next screen - its an exercise for the student to figure out what they might be):
+
+![](assets/markdown-img-paste-20200504152117165.png)
+
+4. Create  a job that will be triggered manually and will execute the 1_python.py. Here are the parameters to do that:
+
+Variable | Value
+--- | ---
+Name | My New Job
+Script | 1_python.py
+Engine Kernel | Python 3
+
+5. Leave everything else as default. Scroll down and hit ```Create Job```. You should get to this screen:
+
+![](assets/markdown-img-paste-2020050415273495.png)
+
+6. Here you can see that you have a job (‘My New Job’). It’s never been run, and it has no dependencies.
+
+7. Let’s make other jobs depend on this one: Click the ```+ Add Job Dependency``` grayed out button and add a new job that has a dependency on ‘My New Job’. The parameters are:
+
+Variable | Value
+--- | ---
+Name | Job 2
+Script | 2_pyspark.py
+Engine | Kernel	Python 3
+
+![](assets/markdown-img-paste-20200504153055728.png)
+
+8. Scroll down and ‘Create Job’. You’ll now see a page like this:
+
+![](assets/markdown-img-paste-20200504153329160.png)
+
+9. So here we can see that ‘Job 2’ depends upon ‘My New Job’ (although you can run each manually, if you so choose).
+
+10. Let’s add another job that will run in parallel with Job2:
+
+11. Click ‘New Job’ in the top right corner and create another job that depends upon ‘My New Job’. The parameters you’ll need are:
+
+Variable | Value
+--- | ---
+Name | R Job
+Script | 4_basket_analysis
+Engine Kernel |R
+Schedule | Dependant / My New Job
+
+12. Create the job and you’ll see this:
+
+![](assets/markdown-img-paste-20200504153730958.png)
+
+13. Lets run it all - hit the ```Run``` button next to ‘My New Job’ (bottom of the list of jobs). You should see the job get scheduled, run, complete, and then the next two jobs should likewise get scheduled, run and complete:
+
+Question: How will a job scheduler reduce the effort required for you to build simple pipelines?
+
+Question: What other facilities surrounding a job did we not explain? What do you think those other parameters might do?
+
+## Lab 9 - Experimenting
+
+Starting with version 1.4, Cloudera Data Science Workbench allows data scientists to run batch experiments that track different versions of code, input parameters, and output (both metrics and files).
+
+#### Challenge
+As data scientists iteratively develop models, they often experiment with datasets, features, libraries, algorithms, and parameters. Even small changes can significantly impact the resulting model. This means data scientists need the ability to iterate and repeat similar experiments in parallel and on demand, as they rely on differences in output and scores to tune parameters until they obtain the best fit for the problem at hand. Such a training workflow requires versioning of the file system, input parameters, and output of each training run.
+
+Without versioned experiments you would need intense process rigor to consistently track training artifacts (data, parameters, code, etc.), and even then it might be impossible to reproduce and explain a given result. This can lead to wasted time/effort during collaboration, not to mention the compliance risks introduced.
+
+#### Solution
+Starting with version 1.4, Cloudera Data Science Workbench uses experiments to facilitate ad-hoc batch execution and model training. Experiments are batch executed workloads where the code, input parameters, and output artifacts are versioned. This feature also provides a lightweight ability to track output data, including files, metrics, and metadata for comparison.
+
+#### Concepts
+The term experiment refers to a non interactive batch execution script that is versioned across input parameters, project files, and output. Batch experiments are associated with a specific project (much like sessions or jobs) and have no notion of scheduling; they run at creation time. To support versioning of the project files and retain run-level artifacts and metadata, each experiment is executed in an isolated container.
+
+#### Lifecycle of an Experiment
+
+![](assets/markdown-img-paste-20200504154552241.png)
+
+1. Create a new project
+Go to the homepage of your Data Science workbench, and create a ‘New’ project.
+Call the new repository something like Experiments and Models.
+Create the repository as a clone of the github repository:
+
+```https://github.com/andremolenaar/experiments_models_tellarius.git
+```
+
+![](assets/markdown-img-paste-20200504171235122.png)
+
+2. Start a workbench with a Python 3 and 2 GB of memory.
+When the workbench is available, open a terminal window and make the cdsw-build.sh program executable. Use the following command to do that:
+
+```
+chmod +x setup.sh
+./setup.sh
+```
+
+![](assets/markdown-img-paste-20200504171357926.png)
+
+3. Examin dsfortelco_sklearn_exp.py
+
+Open the file “dsfortelco_sklearn_exp.py”. This is a python program that builds a churn model to predict customer churn (the likelihood that this customer is going to stop his subscription with his telecom operator). There is a dataset available on hdfs (/user/$HADOOP_USER_NAME/churn_all.csv), with customer data, including a churn indicator field.
+
+The program is going to build a churn prediction model using the Random Forest algorithm. Random forests are ensembles of decision trees. Random forests are one of the most successful machine learning models for classification and regression. They combine many decision trees in order to reduce the risk of overfitting. Like decision trees, random forests handle categorical features, extend to the multiclass classification setting, do not require feature scaling, and are able to capture non-linearities and feature interactions.
+
+spark.mllib supports random forests for binary and multiclass classification and for regression, using both continuous and categorical features. spark.mllib implements random forests using the existing decision tree implementation. Please see the decision tree guide for more information on trees.
+
+The Random Forest algorithm expects a couple of parameters:
+- numTrees: Number of trees in the forest.
+Increasing the number of trees will decrease the variance in predictions, improving the model’s test-time accuracy.
+Training time increases roughly linearly in the number of trees.
+- maxDepth: Maximum depth of each tree in the forest.
+Increasing the depth makes the model more expressive and powerful. However, deep trees take longer to train and are also more prone to overfitting.
+In general, it is acceptable to train deeper trees when using random forests than when using a single decision tree. One tree is more likely to overfit than a random forest (because of the variance reduction from averaging multiple trees in the forest).
+
+In the dsfortelco_pyspark_exp.py program, these parameters can be passed to the program at runtime. In the lines 38 and 39, these parameters are passed to python variables:
+```
+param_numTrees=int(sys.argv[1])
+param_maxDepth=int(sys.argv[2])
+```
+
+Also note that at the lines 69 and 70, the quality indicator for the Random Forest model, are written back to the Data Science Workbench repository:
+cdsw.track_metric("auroc", auroc)
+cdsw.track_metric("ap", ap)
+
+These indicators will show up later in the Experiments dashboard.
+
+4. Run the experiment for the first time
+
+Now, run the experiment using the following parameters:
+numTrees = 40
+numDepth = 20
+
+From the menu, select ```Run``` -> ```Experiments```.
+
+![](assets/markdown-img-paste-20200504172154379.png)
+
+Specify the arguments for this run, by typing the numbers behind the arguments field. Note that these fields are separated by a space and that there is no comma (,)
+
+![](assets/markdown-img-paste-20200504172331917.png)
+
+Now, in the background, the Data Science Workbench environment will spin up a new docker container, where this program will run.
+
+5. Check the results for the first experiment
+
+Go back to the ‘Projects’ page in CDSW, and hit the ```Experiments``` button in the left menu bar. You should see something like this:
+
+![](assets/markdown-img-paste-2020050417275981.png)
+
+If the Status indicates ‘Running’, you have to wait till the run is completed.
+In case the status is ‘Build Failed’ or ‘Failed’, check the log information. This is accessible by clicking on the run number of your experiments. There you can find the session log, as well as the build information.
+
+In case your status indicates ‘Success’, you should be able to see the auroc (Area Under the Curve) model quality indicator. It might be that this value is hidden by the CDSW user interface. in that case, click on the ‘3 metrics’ links, and select the auroc field. It might be needed to deselect some other fields, since the interface can only show 3 metrics at the same time.
+
+In this example, the auroc is 0.845. Not bad, but maybe there are better hyper parameter values available.
+
+6. Re-run the experiment several times
+
+Now, re-run the experiment 3 more times and try different values for NumTrees and NumDepth. Try the following values:
+
+NumTrees | numDepth
+--- | ---
+15 | 25
+25 | 20
+Try something yourself | Try something yourself
+
+When all runs have completed successfully, check which parameters had the best quality (best predictive value). This is represented by the highest ‘area under the curve’, auroc metric.
+
+![](assets/markdown-img-paste-20200504173337240.png)
+
+In this example, run 2 had the highest auroc value, so that is the model that you would want to use for your business.
+
+7. Save the best model to your environment
+
+Select the run number with the best predictive value, in this example, run number 2, by clicking the link on the number ```2```.
+
+In the Overview screen of the experiment, you can see that the model in spark format, is captured in the file ‘sklearn_rf.pkl’. Select this file and hit the ‘Add to Project’ button. This will copy the model to your project directory.
+
+![](assets/markdown-img-paste-20200504173639153.png)

@@ -14,8 +14,8 @@ There are several scripts provided which walk through the interactive capabiliti
 3. **R** Demonstrates:
   - Run standalone R code on CDSW, showing arules library
   - Use sparklyr to benefit from the Spark engine in your R application
-4. **Advanced visualization with Shiny (R)** Demonstrates:
-  - Use of 'shiny' to provide interactive graphics inside CDSW
+4. **Scala** Demonstrates:
+  - Run Scala code on CDSW
 5. **Jobs** Demonstrates:
   - Use the easy to use self-service batch framework
 6. **Working with Experiments and Models** Demonstrates:
@@ -91,7 +91,7 @@ When the project is created, you will see a screen similar to this:
 
 ![](assets/markdown-img-paste-20200501133310609.png)
 
-Now, Launch a Python 3 Session by selecting the 'Open Workbench' button, populate the options:
+Now, Launch a Python 3 Session by selecting the ```Open Workbench``` button, populate the options:
 - Editor: workbench
 - Engine Kernel: Python 3
 - 1 vCPU / 2 GiB Memory
@@ -193,21 +193,31 @@ Execute the following instructions.
 
 3. If you don’t have a Python 3 workbench session open yet, Launch a Python 3 session 1 vCPU / 2 GB RAM
 
-4. Run line 32:
+4. Run line 34. You can run the line by selecting the line, right mouse click, and select ```run line(s)```, or alternatively, select the line and using the ```Run``` menu:
 
 5. ```!hdfs dfs -put -f $HOME/data/kmeans_data.txt /user/$HADOOP_USER_NAME```
 
 6. Execute the 2_pyspark.py file in your already running Python session
 
-7.	Question: What did it do?
+7. Question: What did it do?
 
-8.	Question: What kind of thing is the variable ‘data’? (try typing ‘data’ into the console and seeing what gets printed out.
+8. Question: What kind of thing is the variable ‘data’? (try typing ‘data’ into the console and seeing what gets printed out.
 
-9. Open a terminal using the ```terminal``` icon in the top right:
+9. Click on the ```Spark UI``` link on the top of the console. You should see something like this:
+
+![](assets/markdown-img-paste-2020050411291559.png)
+
+10. The Spark UI can be used to understand how Spark is executing your application, which is very useful for debugging. Click around the Spark UI, notice the different stages the job went through. Also notice the execution time of all the steps of your job.
+
+11. Once you are ready clicking around the Spark UI, navigate back the the ```Session```. In order close Spark processing, execute the following command in the console:
+
+12. ```spark.stop()```
+
+13. Open a terminal using the ```terminal``` icon in the top right:
 
 ![](assets/markdown-img-paste-20200501150145935.png)
 
-10. Execute ```hdfs dfs -ls``` to see the data file in the hadoop file system (or, to show off, execute ```! hdfs dfs -ls``` in the python console to do the same thing!)
+14. Execute ```hdfs dfs -ls``` to see the data file in the hadoop file system (or, to show off, execute ```! hdfs dfs -ls``` in the python console to do the same thing!)
 
 ![](assets/markdown-img-paste-20200501150401265.png)
 
@@ -215,7 +225,7 @@ If everything went correctly you’ll see that we demonstrate:
 -	Natural integration with HDFS - it’s just a path to a file!
 -	Natural parallel computation across the cluster using Spark
 
-You may stop your session now by hitting the ```Stop``` button above your session log.
+15. You may stop your session now by hitting the ```Stop``` button above your session log.
 
 ## Lab 5 - Runnng R code
 

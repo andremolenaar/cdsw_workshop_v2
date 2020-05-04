@@ -26,10 +26,10 @@ def closestPoint(p, centers):
 spark = SparkSession\
     .builder\
     .appName("PythonKMeans")\
+    .master("local[*]")\
     .getOrCreate()
 
 
-  
 # Add the data file to hdfs.
 !hdfs dfs -put -f $HOME/data/kmeans_data.txt /user/$HADOOP_USER_NAME
 
@@ -56,4 +56,5 @@ while tempDist > convergeDist:
 
 print("Final centers: " + str(kPoints))
 
-spark.stop()
+# Run the spark.stop() command manually, after you have seen the "Spark UI".
+# spark.stop()

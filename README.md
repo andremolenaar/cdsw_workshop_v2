@@ -402,20 +402,21 @@ The term experiment refers to a non interactive batch execution script that is v
 
 #### Lifecycle of an Experiment
 
-![](assets/markdown-img-paste-20200504154552241.png)
+![](assets/markdown-img-paste-20200506122540342.png)
 
 1. Create a new project
 Go to the homepage of your Data Science workbench, and create a ‘New’ project.
 Call the new repository something like Experiments and Models.
 Create the repository as a clone of the github repository:
 
-```https://github.com/andremolenaar/experiments_models_tellarius.git
+```
+https://github.com/andremolenaar/experiments_models_tellarius.git
 ```
 
 ![](assets/markdown-img-paste-20200504171235122.png)
 
 2. Start a workbench with a Python 3 and 2 GB of memory.
-When the workbench is available, open a terminal window and make the cdsw-build.sh program executable. Use the following command to do that:
+When the workbench is available, open a terminal window and make the cdsw-build.sh program executable and run it. You can do this by entering the following commands:
 
 ```
 chmod +x setup.sh
@@ -440,15 +441,17 @@ Training time increases roughly linearly in the number of trees.
 Increasing the depth makes the model more expressive and powerful. However, deep trees take longer to train and are also more prone to overfitting.
 In general, it is acceptable to train deeper trees when using random forests than when using a single decision tree. One tree is more likely to overfit than a random forest (because of the variance reduction from averaging multiple trees in the forest).
 
-In the dsfortelco_pyspark_exp.py program, these parameters can be passed to the program at runtime. In the lines 38 and 39, these parameters are passed to python variables:
+In the dsfortelco_pyspark_exp.py program, these parameters can be passed to the program at runtime. In the lines 39 and 40, these parameters are passed to python variables:
 ```
 param_numTrees=int(sys.argv[1])
 param_maxDepth=int(sys.argv[2])
 ```
 
-Also note that at the lines 69 and 70, the quality indicator for the Random Forest model, are written back to the Data Science Workbench repository:
+Also note that at the lines 70 and 71, the quality indicator for the Random Forest model, are written back to the Data Science Workbench repository:
+```
 cdsw.track_metric("auroc", auroc)
 cdsw.track_metric("ap", ap)
+```
 
 These indicators will show up later in the Experiments dashboard.
 
@@ -477,7 +480,11 @@ Go back to the ‘Projects’ page in CDSW, and hit the ```Experiments``` button
 If the Status indicates ‘Running’, you have to wait till the run is completed.
 In case the status is ‘Build Failed’ or ‘Failed’, check the log information. This is accessible by clicking on the run number of your experiments. There you can find the session log, as well as the build information.
 
-In case your status indicates ‘Success’, you should be able to see the auroc (Area Under the Curve) model quality indicator. It might be that this value is hidden by the CDSW user interface. in that case, click on the ‘3 metrics’ links, and select the auroc field. It might be needed to deselect some other fields, since the interface can only show 3 metrics at the same time.
+In case your status indicates ‘Success’, you should be able to see the auroc (Area Under the Curve) model quality indicator. It might be that this value is hidden by the CDSW user interface. in that case, click on the ‘3 metrics’ links, and select the auroc field.
+
+![](assets/markdown-img-paste-20200506121907408.png)
+
+It might be needed to deselect some other fields, since the interface can only show 3 metrics at the same time.
 
 In this example, the auroc is 0.845. Not bad, but maybe there are better hyper parameter values available.
 
@@ -504,3 +511,132 @@ Select the run number with the best predictive value, in this example, run numbe
 In the Overview screen of the experiment, you can see that the model in spark format, is captured in the file ‘sklearn_rf.pkl’. Select this file and hit the ‘Add to Project’ button. This will copy the model to your project directory.
 
 ![](assets/markdown-img-paste-20200504173639153.png)
+
+## Lab 10 - Working with Models
+
+Starting with version 1.4, Cloudera Data Science Workbench allows data scientists to build, deploy, and manage models as REST APIs to serve predictions.
+
+### Challenge
+Data scientists often develop models using a variety of Python/R open source packages. The challenge lies in actually exposing those models to stakeholders who can test the model. In most organizations, the model deployment process will require assistance from a separate DevOps team who likely have their own policies about deploying new code.
+
+For example, a model that has been developed in Python by data scientists might be rebuilt in another language by the devops team before it is actually deployed. This process can be slow and error-prone. It can take months to deploy new models, if at all. This also introduces compliance risks when you take into account the fact that the new re-developed model might not be even be an accurate reproduction of the original model.
+
+Once a model has been deployed, you then need to ensure that the devops team has a way to rollback the model to a previous version if needed. This means the data science team also needs a reliable way to retain history of the models they build and ensure that they can rebuild a specific version if needed. At any time, data scientists (or any other stakeholders) must have a way to accurately identify which version of a model is/was deployed.
+
+### Solution
+Starting with version 1.4, Cloudera Data Science Workbench allows data scientists to build and deploy their own models as REST APIs. Data scientists can now select a Python or R function within a project file, and Cloudera Data Science Workbench will:
+
+- Create a snapshot of model code, model parameters, and dependencies.
+- Package a trained model into an immutable artifact and provide basic serving code.
+- Add a REST endpoint that automatically accepts input parameters matching the function, and that returns a data structure that matches the function’s return type.
+- Save the model along with some metadata.
+- Deploy a specified number of model API replicas, automatically load balanced.
+
+Stages of the Model Deployment Process:
+
+![](assets/markdown-img-paste-20200506122427408.png)
+
+1. Examine the program ```predic_churn_sklearn.py```
+
+Open the project you created in the previous lab, and examine the file.
+
+![](assets/markdown-img-paste-2020050612272429.png)
+
+This PySpark program uses the pickle.load mechanism to deploy models.. The model it refers to the sklearn_rf.pkl file, was saved in the previous lab from the experiment with the best predictive model.
+
+There is a predict definition which is the function that calls the model, using features, and will return a result variable.
+
+2. Deploy the model
+
+From the projects page of your project, select the ```Models``` button.
+
+![](assets/markdown-img-paste-20200506130315240.png)
+
+Select the ```New Model``` button, and populate specify the following configuration:
+
+Variable | value
+--- | ---
+Name |		something like “My Churn Prediction Model”
+Description |	Anything you want
+File | predict_churn_sklearn.py
+Function | predict
+Example Inp |	{ "feature": "0, 65, 0, 137, 21.95, 83, 19.42, 111, 9.4, 6, 3.43, 4" }
+Kernal | Python 3
+Engine |	0.5 vCPU / 2 GiB Memory
+Replicas |	1
+
+![](assets/markdown-img-paste-20200506130845923.png)
+
+If all parameters are set, you can hit the ```Deploy Model``` button. Wait until the model is deployed. This will take several minutes.
+
+![](assets/markdown-img-paste-20200506131003577.png)
+
+3. Test the deployed model
+
+After several minutes, your model should get to the ‘Deployed’ state.
+
+![](assets/markdown-img-paste-20200506131328780.png)
+
+Now, click on the Model Name link, to go to the Model Overview page. From that page, hit the ```Test``` button to check if the model is working.
+
+![](assets/markdown-img-paste-20200506131447144.png)
+
+If your model is working, you should receive an output similar like this:
+
+![](assets/markdown-img-paste-20200506131649583.png)
+
+The green color with success is telling that our REST call to the model is technically working. And if you examine the response: {“result”: 1}, it returns a 1, which means that customer with these features is likely to churn.
+
+Now, let’s change the input parameters and call the predict function again. Put the following values in the Input field:
+```
+{
+  "feature": "0, 95, 0, 88, 26.62, 75, 21.05, 115, 8.65, 5, 3.32, 3"
+}
+```
+![](assets/markdown-img-paste-2020050613183109.png)
+
+With these input parameters, the model returns 0, which means that the customer is not likely to churn.
+
+4. Model Administration
+
+When a model is deployed, Cloudera Data Science Workbench allows you to specify a number of replicas that will be deployed to serve requests. For each active model, you can monitor its replicas by going to the model's Monitoring page. On this page you can track the number of requests being served by each replica, success and failure rates, and their associated stderr and stdout logs. Depending on future resource requirements, you can increase or decrease the number of replicas by re-deploying the model.
+
+![](assets/markdown-img-paste-20200506141247392.png)
+
+When you get to the re-deployment page, you can increase the number of replicas.
+
+![](assets/markdown-img-paste-20200506141350476.png)
+
+In order not to overload the cluster, hit the ‘Cancel’ button to return to the running model page.
+
+Now, navigate to the ‘Monitoring’ tab.
+
+![](assets/markdown-img-paste-20200506141556148.png)
+
+Several statistics of the model are displayed, like the number of times the model has been called, have been processed, etc.
+
+Logfile information is also available here. The most recent logs are at the top of the pane (see image). stderr logs are displayed next to a red bar while stdout logs are by a green bar. Note that model logs and statistics are only preserved so long as the individual replica is active. When a replica restarts (for example, in case of bad input) the logs also start with a clean slate.
+
+Now, navigate to the ```Settings``` tab.
+
+![](assets/markdown-img-paste-20200506141734172.png)
+
+On the settings tab, you will be able to find the “Access Key” that is needed in order to call the model with a REST webservice call.
+
+5. Test the rest service from a command line.
+
+The last step in this workshop, is to test the predict function from another (virtual) machine, using the “curl” tool.
+
+Navigate to the ```Overview``` tab of your running model.
+
+![](assets/markdown-img-paste-20200506142002776.png)
+
+Copy the whole shell statement, starting with ‘curl -H ….”
+
+Open a workbench session, running python 2 with 2 GB of memory. When the session is available, open a Terminal. Now, paste the curl statement to the command prompt, and run the statement.
+
+![](assets/markdown-img-paste-20200506142427630.png)
+
+That completes our lab with models. Please, free up some resources for other people and new projects. So stop your workbench session. And from the Models page, also stop your deployed model.
+
+![](assets/markdown-img-paste-20200506142751842.png)
